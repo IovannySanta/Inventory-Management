@@ -31,6 +31,10 @@ public class Producto {
         this.entryDate = entryDate;
     }
 
+    /* 
+    Getters de la clase
+    */
+    
     public String getProductCode() {
         return productCode;
     }
@@ -61,9 +65,5 @@ public class Producto {
 
     public LocalDate getEntryDate() {
         return entryDate;
-    }
-   
-    
-    
+    } 
 }
-
