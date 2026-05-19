@@ -35,35 +35,19 @@ public class Producto {
     Getters de la clase
     */
     
-    public String getProductCode() {
-        return productCode;
-    }
+    public String getProductCode() { return productCode; }
 
-    public String getProductName() {
-        return productName;
-    }
+    public String getProductName() { return productName; }
 
-    public String getCategory() {
-        return category;
-    }
+    public String getCategory() { return category; }
 
-    public double getUnitPrice() {
-        return unitPrice;
-    }
+    public double getUnitPrice() { return unitPrice; }
 
-    public int getStockQuantity() {
-        return stockQuantity;
-    }
+    public int getStockQuantity() { return stockQuantity; }
 
-    public int getMinimumStock() {
-        return minimumStock;
-    }
+    public int getMinimumStock() { return minimumStock; }
 
-    public String getSupplier() {
-        return supplier;
-    }
+    public String getSupplier() { return supplier; }
 
-    public LocalDate getEntryDate() {
-        return entryDate;
-    } 
+    public LocalDate getEntryDate() { return entryDate; } 
 }
