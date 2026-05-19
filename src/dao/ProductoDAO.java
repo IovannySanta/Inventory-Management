@@ -12,6 +12,11 @@ import java.util.List;
 
 public class ProductoDAO {
     
+    /*
+    Gestiona las operaciones para la base de datos.
+    */ 
+         
+    /*Guardar un nuevo producto en la base de datos*/
     public boolean guardar(Producto producto) {
         String sql = "INSERT INTO products(product_code, product_name, category, unit_price, stock_quantity, minimum_stock, supplier, entry_date) VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
         
@@ -34,8 +39,7 @@ public class ProductoDAO {
         }
     }
     
-    
-    
+    /*Verifica si un producto existe actualmente con el mismo codigo*/
     public boolean existe(String productCode) {
         String sql = "SELECT product_code FROM product WHERE product_code = ?";
         
@@ -53,7 +57,7 @@ public class ProductoDAO {
         }
     }
     
-    
+    /*Actualizar un producto existente*/
     public boolean actualizar(Producto producto) {
         String sql = "UPDATE products SET product_name=?, category=?, unit_price=?, stock_quantity=?, minimum_stock=?, supplier=?, entry_date=? WHERE product_code=?";
 
@@ -78,7 +82,7 @@ public class ProductoDAO {
         }
     }
     
-    
+    /*Lista de todos los productos registrados*/
     public List<Producto> listarTodos() {
         List<Producto> productList = new ArrayList<>();
 
@@ -99,29 +103,26 @@ public class ProductoDAO {
                         resultSet.getString("supplier"),
                         resultSet.getDate("entry_date").toLocalDate()
                 );
-
                 productList.add(producto);
             }
-
         } catch (SQLException errorListar) {
             System.out.println("Error al listar productos: " + errorListar.getMessage());
         }
-
         return productList;
     }
     
-    
+    /*eliminar un producto a traves de su codigo único*/
     public boolean eliminar(String productCode) {
         String sql = "DELETE FROM products WHERE product_code = ?";
 
         try (Connection connection = ConexionBD.connect();
              PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
-
+            
             preparedStatement.setString(1, productCode);
-
+            
             preparedStatement.executeUpdate();
             return true;
-
+            
         } catch (SQLException errorEliminar) {
             System.out.println("Error al eliminar producto: " + errorEliminar.getMessage());
             return false;
