@@ -41,7 +41,7 @@ public class ProductoDAO {
     
     /*Verifica si un producto existe actualmente con el mismo codigo*/
     public boolean existe(String productCode) {
-        String sql = "SELECT product_code FROM product WHERE product_code = ?";
+        String sql = "SELECT product_code FROM products WHERE product_code = ?";
         
         try (Connection connection = ConexionBD.connect();
                 PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
