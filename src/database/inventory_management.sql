@@ -1,3 +1,5 @@
+-- Código SQL para creación de base de datos
+
 CREATE DATABASE inventory_management;
 
 USE inventory_management;

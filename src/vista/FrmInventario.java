@@ -12,8 +12,11 @@ import java.util.List;
 
 /**
  * Clase que representa la ventana principal del sistema de inventario.
- * Captura, valida y gestiona productos mediante el DAO.
+ * Permite registrar, actualizar, eliminar y visualizar productos.
+ * Captura los datos ingresados por el usuario, los valida y
+ * delega las operaciones al DAO.
  */
+
 public class FrmInventario extends JFrame {
 
     private JTextField txtProductCode;
@@ -30,6 +33,9 @@ public class FrmInventario extends JFrame {
 
     private final ProductoDAO productoDAO = new ProductoDAO();
 
+    /**
+     * Constructor que inicializa la interfaz gráfica.
+     */
     public FrmInventario() {
         setTitle("Sistema de Inventario");
         setSize(1100, 620);
@@ -43,42 +49,45 @@ public class FrmInventario extends JFrame {
         cargarTabla();
     }
 
+     // Crea el panel superior con los botones de acción.
     private JPanel crearPanelBotones() {
-        JPanel buttonPanel = new JPanel(new BorderLayout());
+        JPanel panelBotones = new JPanel(new BorderLayout());
 
-        JPanel leftPanel = new JPanel();
+        JPanel panelIzquierdo = new JPanel();
         JButton btnGuardar = new JButton("Guardar");
         JButton btnEliminar = new JButton("Eliminar");
         JButton btnLimpiar = new JButton("Limpiar");
 
-        leftPanel.add(btnGuardar);
-        leftPanel.add(btnEliminar);
-        leftPanel.add(btnLimpiar);
+        panelIzquierdo.add(btnGuardar);
+        panelIzquierdo.add(btnEliminar);
+        panelIzquierdo.add(btnLimpiar);
 
-        JPanel rightPanel = new JPanel();
+        JPanel panelDerecho = new JPanel();
         JButton btnSalir = new JButton("Salir");
-        rightPanel.add(btnSalir);
+        panelDerecho.add(btnSalir);
 
-        buttonPanel.add(leftPanel, BorderLayout.WEST);
-        buttonPanel.add(rightPanel, BorderLayout.EAST);
+        panelBotones.add(panelIzquierdo, BorderLayout.WEST);
+        panelBotones.add(panelDerecho, BorderLayout.EAST);
 
-        btnGuardar.addActionListener(event -> guardar());
-        btnEliminar.addActionListener(event -> eliminar());
-        btnLimpiar.addActionListener(event -> limpiarCampos());
-        btnSalir.addActionListener(event -> System.exit(0));
+        btnGuardar.addActionListener(evento -> guardar());
+        btnEliminar.addActionListener(evento -> eliminar());
+        btnLimpiar.addActionListener(evento -> limpiarCampos());
+        btnSalir.addActionListener(evento -> System.exit(0));
 
-        return buttonPanel;
+        return panelBotones;
     }
 
+     // Crea el panel central de la interfaz.
     private JPanel crearPanelCentral() {
-        JPanel centralPanel = new JPanel(new BorderLayout(10, 0));
-        centralPanel.add(crearFormulario(), BorderLayout.WEST);
-        centralPanel.add(crearTabla(), BorderLayout.CENTER);
-        return centralPanel;
+        JPanel panelCentral = new JPanel(new BorderLayout(10, 0));
+        panelCentral.add(crearFormulario(), BorderLayout.WEST);
+        panelCentral.add(crearTabla(), BorderLayout.CENTER);
+        return panelCentral;
     }
 
+     // Crea el formulario de ingreso de datos.
     private JPanel crearFormulario() {
-        JPanel formPanel = new JPanel(new GridLayout(8, 2, 5, 35));
+        JPanel panelFormulario = new JPanel(new GridLayout(8, 2, 5, 35));
 
         txtProductCode = new JTextField();
         txtProductName = new JTextField();
@@ -89,33 +98,26 @@ public class FrmInventario extends JFrame {
         txtSupplier = new JTextField();
         txtEntryDate = new JTextField();
 
-        formPanel.add(new JLabel("Código:"));
-        formPanel.add(txtProductCode);
+        panelFormulario.add(new JLabel("Código:")); panelFormulario.add(txtProductCode);
 
-        formPanel.add(new JLabel("Nombre:"));
-        formPanel.add(txtProductName);
+        panelFormulario.add(new JLabel("Nombre:")); panelFormulario.add(txtProductName);
 
-        formPanel.add(new JLabel("Categoría:"));
-        formPanel.add(txtCategory);
+        panelFormulario.add(new JLabel("Categoría:")); panelFormulario.add(txtCategory);
 
-        formPanel.add(new JLabel("Precio:"));
-        formPanel.add(txtUnitPrice);
+        panelFormulario.add(new JLabel("Precio:")); panelFormulario.add(txtUnitPrice);
 
-        formPanel.add(new JLabel("Stock:"));
-        formPanel.add(txtStockQuantity);
+        panelFormulario.add(new JLabel("Stock:")); panelFormulario.add(txtStockQuantity);
 
-        formPanel.add(new JLabel("Stock mínimo:"));
-        formPanel.add(txtMinimumStock);
+        panelFormulario.add(new JLabel("Stock mínimo:")); panelFormulario.add(txtMinimumStock);
 
-        formPanel.add(new JLabel("Proveedor:"));
-        formPanel.add(txtSupplier);
+        panelFormulario.add(new JLabel("Proveedor:")); panelFormulario.add(txtSupplier);
 
-        formPanel.add(new JLabel("Fecha (AAAA-MM-DD):"));
-        formPanel.add(txtEntryDate);
+        panelFormulario.add(new JLabel("Fecha (AAAA-MM-DD):")); panelFormulario.add(txtEntryDate);
 
-        return formPanel;
+        return panelFormulario;
     }
 
+    // Crea la tabla donde se visualizan los productos.
     private JScrollPane crearTabla() {
         String[] columnas = {
                 "Código", "Nombre", "Categoría", "Precio",
@@ -125,24 +127,27 @@ public class FrmInventario extends JFrame {
         tableModel = new DefaultTableModel(columnas, 0);
         productTable = new JTable(tableModel);
 
-        productTable.getSelectionModel().addListSelectionListener(event -> {
-            int row = productTable.getSelectedRow();
+        productTable.getSelectionModel().addListSelectionListener(evento -> {
+            int selectedRow = productTable.getSelectedRow();
 
-            if (row != -1) {
-                txtProductCode.setText(tableModel.getValueAt(row, 0).toString());
-                txtProductName.setText(tableModel.getValueAt(row, 1).toString());
-                txtCategory.setText(tableModel.getValueAt(row, 2).toString());
-                txtUnitPrice.setText(tableModel.getValueAt(row, 3).toString());
-                txtStockQuantity.setText(tableModel.getValueAt(row, 4).toString());
-                txtMinimumStock.setText(tableModel.getValueAt(row, 5).toString());
-                txtSupplier.setText(tableModel.getValueAt(row, 6).toString());
-                txtEntryDate.setText(tableModel.getValueAt(row, 7).toString());
+            if (selectedRow != -1) {
+                txtProductCode.setText(tableModel.getValueAt(selectedRow, 0).toString());
+                txtProductName.setText(tableModel.getValueAt(selectedRow, 1).toString());
+                txtCategory.setText(tableModel.getValueAt(selectedRow, 2).toString());
+                txtUnitPrice.setText(tableModel.getValueAt(selectedRow, 3).toString());
+                txtStockQuantity.setText(tableModel.getValueAt(selectedRow, 4).toString());
+                txtMinimumStock.setText(tableModel.getValueAt(selectedRow, 5).toString());
+                txtSupplier.setText(tableModel.getValueAt(selectedRow, 6).toString());
+                txtEntryDate.setText(tableModel.getValueAt(selectedRow, 7).toString());
             }
         });
 
         return new JScrollPane(productTable);
     }
 
+    /**
+     * Valida los datos y guarda o actualiza un producto.
+     */
     private void guardar() {
 
         if (Validador.estaVacio(txtProductCode.getText()) ||
@@ -171,6 +176,16 @@ public class FrmInventario extends JFrame {
             return;
         }
 
+        LocalDate entryDate;
+
+        try {
+            entryDate = LocalDate.parse(txtEntryDate.getText());
+        } catch (Exception errorFecha) {
+            JOptionPane.showMessageDialog(this,
+                    "Fecha inválida. Use formato AAAA-MM-DD");
+            return;
+        }
+
         Producto producto = new Producto(
                 txtProductCode.getText(),
                 txtProductName.getText(),
@@ -179,7 +194,7 @@ public class FrmInventario extends JFrame {
                 Integer.parseInt(txtStockQuantity.getText()),
                 Integer.parseInt(txtMinimumStock.getText()),
                 txtSupplier.getText(),
-                LocalDate.parse(txtEntryDate.getText())
+                entryDate
         );
 
         boolean existe = productoDAO.existe(txtProductCode.getText());
@@ -198,12 +213,15 @@ public class FrmInventario extends JFrame {
         }
     }
 
+    /**
+     * Carga todos los productos en la tabla.
+     */
     private void cargarTabla() {
         tableModel.setRowCount(0);
 
-        List<Producto> lista = productoDAO.listarTodos();
+        List<Producto> listaProductos = productoDAO.listarTodos();
 
-        for (Producto producto : lista) {
+        for (Producto producto : listaProductos) {
             tableModel.addRow(new Object[]{
                     producto.getProductCode(),
                     producto.getProductName(),
@@ -217,16 +235,19 @@ public class FrmInventario extends JFrame {
         }
     }
 
+    /**
+     * Elimina un producto seleccionado.
+     */
     private void eliminar() {
-        int fila = productTable.getSelectedRow();
+        int selectedRow = productTable.getSelectedRow();
 
-        if (fila == -1) {
+        if (selectedRow == -1) {
             JOptionPane.showMessageDialog(this,
                     "Seleccione un producto");
             return;
         }
 
-        String productCode = tableModel.getValueAt(fila, 0).toString();
+        String productCode = tableModel.getValueAt(selectedRow, 0).toString();
 
         if (productoDAO.eliminar(productCode)) {
             limpiarCampos();
@@ -234,6 +255,9 @@ public class FrmInventario extends JFrame {
         }
     }
 
+    /**
+     * Limpia todos los campos del formulario.
+     */
     private void limpiarCampos() {
         txtProductCode.setText("");
         txtProductName.setText("");

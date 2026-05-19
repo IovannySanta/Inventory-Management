@@ -16,7 +16,7 @@ public class ProductoDAO {
     Gestiona las operaciones para la base de datos.
     */ 
          
-    /*Guardar un nuevo producto en la base de datos*/
+    // Guardar un nuevo producto en la base de datos
     public boolean guardar(Producto producto) {
         String sql = "INSERT INTO products(product_code, product_name, category, unit_price, stock_quantity, minimum_stock, supplier, entry_date) VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
         
