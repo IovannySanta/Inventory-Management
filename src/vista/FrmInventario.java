@@ -37,7 +37,7 @@ public class FrmInventario extends JFrame {
      * Constructor que inicializa la interfaz gráfica.
      */
     public FrmInventario() {
-        setTitle("Sistema de Inventario");
+        setTitle("Sistema de Inventario - La minorista");
         setSize(1100, 620);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setLocationRelativeTo(null);
@@ -198,7 +198,8 @@ public class FrmInventario extends JFrame {
         );
 
         boolean existe = productoDAO.existe(txtProductCode.getText());
-
+        
+        // Operadores ternarios
         boolean resultado = existe
                 ? productoDAO.actualizar(producto)
                 : productoDAO.guardar(producto);
