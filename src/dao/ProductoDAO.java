@@ -10,11 +10,11 @@ import java.sql.Date;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ProductoDAO {
-    
     /*
     Gestiona las operaciones para la base de datos.
     */ 
+
+public class ProductoDAO {
          
     // Guardar un nuevo producto en la base de datos
     public boolean guardar(Producto producto) {

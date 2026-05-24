@@ -16,11 +16,11 @@ Metodo que intenta establecer la conexion a la base de datos y mostrarsu status.
     
     public static void main(String[] args) {
         try (Connection connection = ConexionBD.connect()) {
-            System.out.println("Connecting to the database");
+            System.out.println("Conectando a la base de datos...");
             
             // verificación de conexión establecida.
             if (connection != null) {
-                System.out.println("SUCCESS: Successful connection to the database");
+                System.out.println("EXITO: conectado exitosamente a la base de datos.");
             }
             
         } catch (Exception e) {

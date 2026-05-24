@@ -1,9 +1,12 @@
 -- Código SQL para creación de base de datos
 
+-- Creamos la base de datos
 CREATE DATABASE inventory_management;
 
+-- Usamos la base de datos
 USE inventory_management;
 
+-- Creamos la tabla productos que almacenara toda la información que pediremos posteriormente
 CREATE TABLE products (
     id             INT PRIMARY KEY AUTO_INCREMENT,
     product_code   VARCHAR(50),
@@ -16,6 +19,7 @@ CREATE TABLE products (
     entry_date     DATE
 );
 
+-- Insertamos "productos" dentro de esta misma tabla
 INSERT INTO products (product_code, product_name, category, unit_price, stock_quantity, minimum_stock, supplier, entry_date) VALUES
 ('PRD-001', 'Logitech MX Master 3 Mouse',        'Peripherals',      99.99,  45, 10, 'Logitech',             '2025-01-15'),
 ('PRD-002', 'Samsung 970 EVO Plus 1TB SSD',      'Storage',         109.99,  30,  8, 'Samsung Electronics',  '2025-02-03'),

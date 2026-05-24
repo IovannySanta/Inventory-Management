@@ -22,7 +22,7 @@ public class ConexionBD {
             return DriverManager.getConnection(URL, USER, PASSWORD);
         } catch (ClassNotFoundException errorDriver) {
             // Lanza exepción si el driver no fue encontrado.
-            throw new SQLException("Driver MySQL not found.", errorDriver);
+            throw new SQLException("Driver MySQL no fue encontrado.", errorDriver);
         }
     }
 }

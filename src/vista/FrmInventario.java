@@ -199,7 +199,6 @@ public class FrmInventario extends JFrame {
 
         boolean existe = productoDAO.existe(txtProductCode.getText());
         
-        // Operadores ternarios
         boolean resultado = existe
                 ? productoDAO.actualizar(producto)
                 : productoDAO.guardar(producto);
